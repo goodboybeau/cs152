@@ -122,9 +122,18 @@ public class Parser {
 		ifChildren.add(new OrderedTree<Token>(this.token()));
 
 		// "if" statement is followed by 3 "expr"
-		ifChildren.add(this.expr());
-		ifChildren.add(this.expr());
-		ifChildren.add(this.expr());
+		for(int i=0; i<3; i++)
+		{
+			// If next is "var", they are preterminals...
+			if(this.lookAhead().getType().equals("Var"))
+			{
+				ifChildren.addAll(this.Var());
+			}
+			else
+			{
+				ifChildren.add(this.expr());
+			}
+		}
 		return ifChildren;
 	}
 	
@@ -171,8 +180,9 @@ public class Parser {
 		{
 			sigChildren.add(new OrderedTree<Token>(this.token()));
 		}
+		
 		// if there are params, add them
-		this.match(this.lookAhead(), "Var");
+		if(this.lookAhead().getType().equals("Var"))
 		{
 			sigChildren.addAll(this.Var());
 		}
@@ -228,21 +238,38 @@ public class Parser {
 		LinkedList<OrderedTree<Token>> fChildren = new LinkedList<OrderedTree<Token>>();
 		
 		this.match(this.lookAhead(), "PrimFName", "UserFName");
-		fChildren.add(new OrderedTree<Token>(this.token()));
-
+		{
+			fChildren.add(new OrderedTree<Token>(this.token()));
+		}
+		
 		// "(" always follows a function name with this grammar
 		this.match(this.lookAhead(), "(");
-		fChildren.add(new OrderedTree<Token>(this.token()));
+		{
+			fChildren.add(new OrderedTree<Token>(this.token()));
+		}
 
 		// until the function parameters are finished,
 		// add them to a new linked list to build the return tree.
-		while(!this.lookAhead().getType().equals(")"))
+		String next = this.lookAhead().getType();
+		while(!next.equals(")") && !next.equals(Token.END_OF_INPUT_TYPE))
 		{
-			fChildren.add(this.expr());
+			// if next is "Var", just add them all
+			// since they be preterminals
+			if(next.equals("Var"))
+			{
+				fChildren.addAll(this.Var());
+			}
+			else
+			{
+				fChildren.add(this.expr());
+			}
+			next = this.lookAhead().getType();
 		}
 		
 		this.match(this.lookAhead(), ")");
-		fChildren.add(new OrderedTree<Token>(this.token()));
+		{
+			fChildren.add(new OrderedTree<Token>(this.token()));
+		}
 		
 		// go back up...
 		return fChildren;
@@ -262,6 +289,16 @@ public class Parser {
 		{
 			this.error(actual.getType(), expected1+" or "+expected2);
 		}
+	}
+	
+	private boolean match(Token actual, String[] expected)
+	{
+		boolean result = false;
+		for(String potential : expected)
+		{
+			result |= actual.getType().equals(potential);
+		}
+		return result;
 	}
 	
 	private void error(String spelling, String expectedType)
