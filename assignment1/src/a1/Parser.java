@@ -251,7 +251,7 @@ public class Parser {
 		// until the function parameters are finished,
 		// add them to a new linked list to build the return tree.
 		String next = this.lookAhead().getType();
-		while(!next.equals(")") && !next.equals(Token.END_OF_INPUT_TYPE))
+		while(!next.equals(")") && !next.equals(Token.END_OF_INPUT_TYPE) && !next.equals("]"))
 		{
 			// if next is "Var", just add them all
 			// since they be preterminals
