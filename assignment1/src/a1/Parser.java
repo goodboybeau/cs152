@@ -65,9 +65,9 @@ public class Parser {
 	 *  grammar noted above. 
 	 * @param input The string to parse and build a tree
 	 * @return The OrderedTree<Token> instance that represents a
-	 * 		properly constructed parse tree of the input.
+	 *  properly constructed parse tree of the input.
 	 * @throws IllegalArgumentException If the input violates
-	 * 		the grammar above.
+	 *  the grammar above.
 	 */
 	public OrderedTree<Token> parse(String input) 
 			throws IllegalArgumentException
@@ -78,9 +78,9 @@ public class Parser {
 	
 	/**
 	 * Retrieves the next token on which to be parsed and
-	 * 		incrememnts the current position.
+	 *  incrememnts the current position.
 	 * @return The token corresponding to the current token
-	 * 		in the list of preterminals.
+	 *  in the list of preterminals.
 	 */
 	private Token token()
 	{
@@ -116,11 +116,11 @@ public class Parser {
 	
 	/**
 	 * Evaluates the current token and recursively descends 
-	 * 		the list of preterminals.
+	 *  the list of preterminals.
 	 * @return The OrderedTree<Token> that represents the 
-	 * 		current token and its children as a parse tree.
+	 *  current token and its children as a parse tree.
 	 * @throws IllegalArgumentException If the grammar is found
-	 * 		to be violated.
+	 *  to be violated.
 	 */
 	private OrderedTree<Token> expr()
 			throws IllegalArgumentException
@@ -131,37 +131,42 @@ public class Parser {
 			// Primitive function name
 			case ("PrimFName"):
 			{
-				return new OrderedTree<Token>(new Token("FCall"), this.FCall());
+				return new OrderedTree<Token>
+					(new Token("FCall"), this.FCall());
 			}
 			// User function name
 			case ("UserFName"):
 			{
-				return (new OrderedTree<Token>(new Token("FCall"), this.FCall()));
+				return (new OrderedTree<Token>
+					(new Token("FCall"), this.FCall()));
 			}
 			// "let" expression
 			case ("let"):
 			{
-				return (new OrderedTree<Token>(new Token("LetExpr"), this.let()));
+				return (new OrderedTree<Token>
+					(new Token("LetExpr"), this.let()));
 			}
 			// "if" expression
 			case ("if"):
 			{
-				return (new OrderedTree<Token>(new Token("IfExpr"), this.ifExpr()));
+				return (new OrderedTree<Token>
+					(new Token("IfExpr"), this.ifExpr()));
 			}
 			// "var" expression
 			case ("Var"):
 			{
-				return (new OrderedTree<Token>(new Token("Var"), this.Var()));
+				return (new OrderedTree<Token>
+					(new Token("Var"), this.Var()));
 			}
 			// List of literals
 			case ("["):
 			{
-				return (new OrderedTree<Token>(new Token("ListLiteral"), this.listLiteral()));
+				return (new OrderedTree<Token>
+					(new Token("ListLiteral"), this.listLiteral()));
 			}
-			/**
-			 *  If syntax is correct, could be a literal value or 
-			 *  end-of-input. If incorrect, could be other values.
-			 */
+			
+			 // If syntax is correct, could be a literal value or 
+			 // end-of-input. If incorrect, could be other values.
 			default:
 			{
 				return (new OrderedTree<Token>(this.token()));
@@ -172,20 +177,21 @@ public class Parser {
 	
 	/**
 	 * Constrains the parsing descent to the grammar above by 
-	 * 		allowing only a legal "if" expression to be next in the
-	 * 		list of preterminals.
+	 *  allowing only a legal "if" expression to be next in the
+	 *  list of preterminals.
 	 * @return The LinkedList of OrderedTree<Token>s that represents
-	 * 		the 3 expressions following an "if" clause as well as
-	 * 		the "if" clause itself.
+	 *  the 3 expressions following an "if" clause as well as
+	 *  the "if" clause itself.
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private LinkedList<OrderedTree<Token>> ifExpr() 
 			throws IllegalArgumentException
 	{
 		this.match(this.lookAhead(), "if");
 		
-		LinkedList<OrderedTree<Token>> ifChildren = new LinkedList<OrderedTree<Token>>();
+		LinkedList<OrderedTree<Token>> ifChildren = 
+				new LinkedList<OrderedTree<Token>>();
 		
 		// add "if"
 		ifChildren.add(new OrderedTree<Token>(this.token()));
@@ -208,12 +214,12 @@ public class Parser {
 	
 	/**
 	 * Constrains the parsing descent to the grammar above by
-	 * 		allowing only a legal "let" expression to be next in the
-	 * 		list of preterminals.
+	 *  allowing only a legal "let" expression to be next in the
+	 *  list of preterminals.
 	 * @return The LinkedList of OrderedTree<Token>s that represents
-	 * 		a legal "let" expression as well as "let" itself.
+	 *  a legal "let" expression as well as "let" itself.
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private LinkedList<OrderedTree<Token>> let()
 			throws IllegalArgumentException
@@ -234,12 +240,12 @@ public class Parser {
 	
 	/**
 	 * Constrains the parsing descent to the grammar above by
-	 * 		allowing only a legal "define" expression to be next in
-	 * 		the list of preterminals.
+	 *  allowing only a legal "define" expression to be next in
+	 *  the list of preterminals.
 	 * @return The OrderedTree<Token> that represents the legal
-	 * 		"define" expression.
+	 *  "define" expression.
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private OrderedTree<Token> Def()
 			throws IllegalArgumentException
@@ -257,12 +263,12 @@ public class Parser {
 	
 	/**
 	 * Constrains the parsing descent to the grammar above by
-	 * 		allowing only a legal "Sig" expression to be next in
-	 * 		the list of preterminals.
+	 *  allowing only a legal "Sig" expression to be next in
+	 *  the list of preterminals.
 	 * @return The OrderedTree<Token> that represents the legal
-	 * 		"Sig" expression.
+	 *  "Sig" expression.
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private OrderedTree<Token> Sig()
 			throws IllegalArgumentException
@@ -298,15 +304,16 @@ public class Parser {
 	
 	/**
 	 * Continues parsing the list of preterminals until a 
-	 * 		non-"Var" expression is reached.
+	 *  non-"Var" expression is reached.
 	 * @return The list of "Var"s that were side-by-side.
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private LinkedList<OrderedTree<Token>> Var()
 			throws IllegalArgumentException
 	{
-		LinkedList<OrderedTree<Token>> vars = new LinkedList<OrderedTree<Token>>();
+		LinkedList<OrderedTree<Token>> vars = 
+				new LinkedList<OrderedTree<Token>>();
 		
 		// add all the "Var"s
 		while(this.lookAhead().getType().equals("Var"))
@@ -325,17 +332,18 @@ public class Parser {
 	
 	/**
 	 * Constrains the parsing descent to the grammar above by
-	 * 		allowing only a legal "ListLiteral" expression to be next in
-	 * 		the list of preterminals.
+	 *  allowing only a legal "ListLiteral" expression to be next in
+	 *  the list of preterminals.
 	 * @return The list of literals that followed the token that 
-	 * 		triggered this call.
+	 *  triggered this call.
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private LinkedList<OrderedTree<Token>> listLiteral()
 			throws IllegalArgumentException
 	{
-		LinkedList<OrderedTree<Token>> literals = new LinkedList<OrderedTree<Token>>();
+		LinkedList<OrderedTree<Token>> literals = 
+				new LinkedList<OrderedTree<Token>>();
 		
 		// "[" is a child of "ListLiteral"
 		this.match(this.lookAhead(), "[");
@@ -360,12 +368,12 @@ public class Parser {
 	
 	/**
 	 * Constrains the parsing descent to the grammar above by
-	 * 		allowing only a legal "FCall" expression to be next in
-	 * 		the list of preterminals.
+	 *  allowing only a legal "FCall" expression to be next in
+	 *  the list of preterminals.
 	 * @return The LinkedList of OrderedTree<Token> that represents 
-	 * 		the legal "FCall" expression.
+	 *  the legal "FCall" expression.
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private LinkedList<OrderedTree<Token>> FCall()
 			throws IllegalArgumentException
@@ -390,7 +398,9 @@ public class Parser {
 		// illegal Token type is found to be next in the list,
 		// add them to a new linked list to build the return tree.
 		String next = this.lookAhead().getType();
-		while(!next.equals(")") && !next.equals(Token.END_OF_INPUT_TYPE) && !next.equals("]"))
+		while(!next.equals(")") 
+				&& !next.equals(Token.END_OF_INPUT_TYPE) 
+				&& !next.equals("]"))
 		{
 			// if next is "Var", just add them all
 			// since they be preterminals
@@ -422,7 +432,7 @@ public class Parser {
 	 * @param actual The Token at question
 	 * @param expected The expected type of "actual"
 	 * @throws IllegalArgumentException If the actual and expected
-	 * 		types do not match.
+	 *  types do not match.
 	 */
 	private void match(Token actual, String expected)
 			throws IllegalArgumentException
@@ -439,12 +449,13 @@ public class Parser {
 	 * @param expected1 An expected type of "actual"
 	 * @param expected2 Another expected type of "actual"
 	 * @throws IllegalArgumentException If actual type does not
-	 * 		match either of the expected types.
+	 *  match either of the expected types.
 	 */
 	private void match(Token actual, String expected1, String expected2)
 			throws IllegalArgumentException
 	{
-		if(!actual.getType().equals(expected1) && !actual.getType().equals(expected2))
+		if(!actual.getType().equals(expected1) 
+				&& !actual.getType().equals(expected2))
 		{
 			this.error(actual.getType(), expected1+" or "+expected2);
 		}
@@ -454,9 +465,9 @@ public class Parser {
 	 * Checks if the token type matches what's expected.
 	 * @param actual The token at question.
 	 * @param expected The String of possible types that "actual"
-	 * 		may be.
+	 *  may be.
 	 * @return True if the actual type matches any of the 
-	 * 		expected types, False otherwise
+	 *  expected types, False otherwise
 	 */
 	private boolean match(Token actual, String[] expected)
 	{
@@ -470,16 +481,17 @@ public class Parser {
 	
 	/**
 	 * Constructs a proper error message and throws exception
-	 * 		with this error message
+	 *  with this error message
 	 * @param spelling The spelling of the found type.
 	 * @param expectedType The type that was expected to be found.
 	 * @throws IllegalArgumentException Explains the issue with the
-	 * 		type mismatch.
+	 *  type mismatch.
 	 */
 	private void error(String spelling, String expectedType)
 			throws IllegalArgumentException
 	{
-		String message = spelling + " found, " + expectedType + " expected.";
+		String message = spelling + " found, " 
+				+ expectedType + " expected.";
 		throw new IllegalArgumentException(message);
 	}
 	
