@@ -1,4 +1,4 @@
-package a1;
+package aronhalt_a1;
 
 /**
     Tests a scanner for the grammar with start symbol Program

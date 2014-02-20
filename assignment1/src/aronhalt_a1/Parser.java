@@ -1,7 +1,7 @@
 /**
  * 
  */
-package a1;
+package aronhalt_a1;
 
 import java.io.Console;
 import java.util.Deque;
@@ -188,7 +188,7 @@ public class Parser {
 	private LinkedList<OrderedTree<Token>> ifExpr() 
 			throws IllegalArgumentException
 	{
-		this.match(this.lookAhead(), "if");
+		this.match("if");
 		
 		LinkedList<OrderedTree<Token>> ifChildren = 
 				new LinkedList<OrderedTree<Token>>();
@@ -225,7 +225,7 @@ public class Parser {
 			throws IllegalArgumentException
 	{		
 		// "define" always follows "let"
-		this.match(this.lookAhead(), "let");
+		this.match("let");
 		
 		LinkedList<OrderedTree<Token>> lChildren 
 			= new LinkedList<OrderedTree<Token>>();
@@ -250,7 +250,7 @@ public class Parser {
 	private OrderedTree<Token> Def()
 			throws IllegalArgumentException
 	{	
-		this.match(this.lookAhead(), "define");
+		this.match("define");
 		
 		LinkedList<OrderedTree<Token>> dChildren 
 			= new LinkedList<OrderedTree<Token>>();		
@@ -273,7 +273,7 @@ public class Parser {
 	private OrderedTree<Token> Sig()
 			throws IllegalArgumentException
 	{
-		this.match(this.lookAhead(), "UserFName");
+		this.match("UserFName");
 		
 		LinkedList<OrderedTree<Token>> sigChildren = 
 				new LinkedList<OrderedTree<Token>>();
@@ -281,7 +281,7 @@ public class Parser {
 		sigChildren.add(new OrderedTree<Token>(this.token()));
 		
 		// after FName comes "("
-		this.match(this.lookAhead(),"(");
+		this.match("(");
 		{
 			sigChildren.add(new OrderedTree<Token>(this.token()));
 		}
@@ -294,7 +294,7 @@ public class Parser {
 		
 		// whether or not there were params,
 		// ")" must be next...
-		this.match(this.lookAhead(), ")");
+		this.match(")");
 		{
 			sigChildren.add(new OrderedTree<Token>(this.token()));
 		}
@@ -346,7 +346,7 @@ public class Parser {
 				new LinkedList<OrderedTree<Token>>();
 		
 		// "[" is a child of "ListLiteral"
-		this.match(this.lookAhead(), "[");
+		this.match("[");
 		{
 			literals.add(new OrderedTree<Token>(this.token()));
 		}		
@@ -358,7 +358,7 @@ public class Parser {
 		}
 		
 		// "]" must follow regardless of the number of "SymbolLiteral"s
-		this.match(this.lookAhead(), "]");
+		this.match("]");
 		{
 			literals.add(new OrderedTree<Token>(this.token()));
 		}
@@ -383,13 +383,13 @@ public class Parser {
 		
 		// Syntactically, a PrimFName or "UserFName" 
 		// 		could start the "FCall"
-		this.match(this.lookAhead(), "PrimFName", "UserFName");
+		this.match("PrimFName", "UserFName");
 		{
 			fChildren.add(new OrderedTree<Token>(this.token()));
 		}
 		
 		// "(" always follows a function name with this grammar
-		this.match(this.lookAhead(), "(");
+		this.match("(");
 		{
 			fChildren.add(new OrderedTree<Token>(this.token()));
 		}
@@ -418,7 +418,7 @@ public class Parser {
 		}
 		
 		// ")" ends the "FCall"
-		this.match(this.lookAhead(), ")");
+		this.match(")");
 		{
 			fChildren.add(new OrderedTree<Token>(this.token()));
 		}
@@ -434,12 +434,12 @@ public class Parser {
 	 * @throws IllegalArgumentException If the actual and expected
 	 *  types do not match.
 	 */
-	private void match(Token actual, String expected)
+	private void match(String expected)
 			throws IllegalArgumentException
 	{
-		if(!actual.getType().equals(expected))
+		if(!this.lookAhead().getType().equals(expected))
 		{
-			this.error(actual.getType(), expected);
+			this.error(this.lookAhead().getType(), expected);
 		}
 	}
 	
@@ -451,32 +451,14 @@ public class Parser {
 	 * @throws IllegalArgumentException If actual type does not
 	 *  match either of the expected types.
 	 */
-	private void match(Token actual, String expected1, String expected2)
+	private void match(String expected1, String expected2)
 			throws IllegalArgumentException
 	{
-		if(!actual.getType().equals(expected1) 
-				&& !actual.getType().equals(expected2))
+		if(!this.lookAhead().getType().equals(expected1) 
+				&& !this.lookAhead().getType().equals(expected2))
 		{
-			this.error(actual.getType(), expected1+" or "+expected2);
+			this.error(this.lookAhead().getType(), expected1+" or "+expected2);
 		}
-	}
-	
-	/**
-	 * Checks if the token type matches what's expected.
-	 * @param actual The token at question.
-	 * @param expected The String of possible types that "actual"
-	 *  may be.
-	 * @return True if the actual type matches any of the 
-	 *  expected types, False otherwise
-	 */
-	private boolean match(Token actual, String[] expected)
-	{
-		boolean result = false;
-		for(String potential : expected)
-		{
-			result |= actual.getType().equals(potential);
-		}
-		return result;
 	}
 	
 	/**
