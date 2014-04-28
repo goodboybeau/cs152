@@ -1,0 +1,370 @@
+
+x
+
+[y, z, w]
+
+c
+
+a0
+
+b1
+
+c2
+
+d3
+
+[a4, b4]
+
+[a5, b5, c5]
+
+a6
+
+[b7]
+
+x5
+
+[b6]
+
+[a7, b7]
+
+[b8, b9]
+
+[xx1, xx2, x3]
+
+[xy1, xy3]
+
+[xy4, xy4]
+
+[xy6]
+
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X32
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X42
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X8
+Type: Var Value: Y8
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: Z
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: P
+Type: Var Value: Q
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X9
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: Y8
+Stack Trace: 
+main
+
+
+Cannot accept Q here.
+Stack Trace: 
+main
+
+Cannot call User-defined functions with arguments!
+Stack Trace: 
+main
+
+Cannot call 'car' with 0 arguments...
+Stack Trace: 
+car
+main
+
+Cannot call 'cdr' with 0 arguments...
+Stack Trace: 
+cdr
+main
+
+Cannot call 'car' with argument SymbolLiteral...
+Stack Trace: 
+car
+main
+
+Cannot call 'cdr' with argument SymbolLiteral...
+Stack Trace: 
+cdr
+main
+
+Cannot call 'car' with empty list!
+Stack Trace: 
+car
+main
+
+Cannot call 'cdr' on empy list!
+Stack Trace: 
+cdr
+main
+
+Cannot call 'car' with 2 arguments...
+Stack Trace: 
+car
+main
+
+Cannot call 'cdr' with 2 arguments...
+Stack Trace: 
+cdr
+main
+
+Cannot call 'cdr' with 0 arguments...
+Stack Trace: 
+cons
+main
+
+Cannot call 'cdr' with 1 arguments...
+Stack Trace: 
+cons
+main
+
+Cannot call 'cdr' with 1 arguments...
+Stack Trace: 
+cons
+main
+
+Cannot call 'cons' with arguments of types 'SymbolLiteral' and 'SymbolLiteral'
+Stack Trace: 
+cons
+main
+
+Cannot call 'cons' with arguments of types 'List' and 'List'
+Stack Trace: 
+cons
+main
+
+Cannot call 'cons' with arguments of types 'List' and 'SymbolLiteral'
+Stack Trace: 
+cons
+main
+
+Cannot call 'cdr' with 3 arguments...
+Stack Trace: 
+cons
+main
+
+Cannot call User-defined functions with arguments!
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X6
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X7
+Stack Trace: 
+main
+
+Cannot call User-defined functions with arguments!
+Stack Trace: 
+cons
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X9
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X5
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X6
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X7
+Stack Trace: 
+main
+
+input string cannot be null
+end-of-input found, Expr expected
+illegal token: 3
+end-of-input found, ( expected
+extra tokens beginning with B after parsed input string
+d00 found, ( expected
+( found, Expr expected
+) found, ] expected
+d1 found, ] expected
+end-of-input found, ] expected
+illegal token: 1776
+end-of-input found, ) expected
+[ found, ( expected
+] found, ) expected
+extra tokens beginning with ) after parsed input string
+extra tokens beginning with ( after parsed input string
+end-of-input found, Expr expected
+end-of-input found, Expr expected
+end-of-input found, Expr expected
+extra tokens beginning with u7 after parsed input string
+) found, Expr expected
+end-of-input found, Expr expected
+) found, Expr expected
+end-of-input found, Expr expected
+end-of-input found, UserFName expected
+V0 found, UserFName expected
+define found, UserFName expected
+car found, UserFName expected
+W found, ( expected
+w found, ) expected
+] found, ) expected
+v found, ) expected
+[ found, ( expected
+v6 found, ) expected
+end-of-input found, Expr expected
+( found, Expr expected
+extra tokens beginning with w9 after parsed input string
+v9 found, ( expected
+) found, ( expected
+( found, Expr expected
+
+
+[p2, q2]
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X
+Type: Var Value: Y
+Type: Var Value: X
+Stack Trace: 
+main
+
+
+User-defined functions must not have arguments!
+Type: Var Value: X4
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: H5
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: X31
+Type: Var Value: Y31
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: U
+Type: Var Value: V
+Stack Trace: 
+main
+
+User-defined functions must not have arguments!
+Type: Var Value: XX
+Stack Trace: 
+main
+
