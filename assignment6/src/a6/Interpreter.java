@@ -11,13 +11,26 @@ class Frame extends HashMap<String, MapValue>
 
 public class Interpreter 
 {
+	/**
+	 * Class to interpret grammar used throughout CS152
+	 *  in Spring, 2014 under professor Jeffrey Smith
+	 *  
+	 * Uses Parser class defined by Dr. Smith
+	 * 
+	 * @author jaronhalt
+	 *
+	 */
 	private class Environment
 	{
+		/**
+		 * Class to represent the environment for a particular interpreter.
+		 */
 		private LinkedList<Frame> frameStack;
 		
 		public Environment()
 		{
 			this.frameStack = new LinkedList<Frame>();
+			// Initial frame entry
 			this.frameStack.add(new Frame());
 		}
 		
@@ -87,6 +100,12 @@ public class Interpreter
 		return this.interpret(parsedProgram);
 	}
 	
+	/**
+	 * Interprets the Expr passed and returns the interpreted MapValue
+	 * @param tree The code to interpret
+	 * @return The MapValue determined via interpretation
+	 * @throws IllegalArgumentException
+	 */
 	public MapValue interpret(OrderedTree<Token> tree) throws IllegalArgumentException
 	{
 		Token root = tree.getRootData();
@@ -130,14 +149,13 @@ public class Interpreter
 			}
 			default:
 			{
-				throw new IllegalArgumentException("Cannot accept '" + root.getSpelling() + "' of type '" + root.getType() + "' here.");
+				throw new IllegalArgumentException("Cannot accept undefined '" + root.getSpelling() + "' of type '" + root.getType() + "' here.");
 			}
 		}
 	}
 		
 	private MapValue callPrimFunc(OrderedTree<Token> primFunc) 
 	{
-		//this.environment.pushFrame();
 		String fName = primFunc.getRootData().getSpelling();
 		int childCount = primFunc.getNumberOfChildren();
 		MapValue result;
@@ -186,6 +204,7 @@ public class Interpreter
 				throw new IllegalArgumentException(msg);
 			}
 			
+			// indirect recursive dive...
 			MapValue tempValue = this.interpret(primFunc.getKthChild(1));
 			if(tempValue.toLyst().getList().size() == 0)
 			{
@@ -207,8 +226,11 @@ public class Interpreter
 			
 			OrderedTree<Token> firstChild = primFunc.getKthChild(1);
 			OrderedTree<Token> secondChild = primFunc.getKthChild(2);
+			
+			// Indirect recursive dives...
 			MapValue firstArg = this.interpret(firstChild);
 			MapValue secondArg = this.interpret(secondChild);
+			
 			// Illegal argument types. The final argument is to be a list. The first argument is to be a symbol.
 			if(firstArg.getType() != Symbol.type || secondArg.getType() != Lyst.type)
 			{
@@ -228,19 +250,20 @@ public class Interpreter
 					+ primFunc.getRootData().getSpelling() + "'");
 		}
 		}
-		//this.environment.popFrame();
+
 		return result;
 	}
 	
 	private MapValue callUserFunc(OrderedTree<Token> userFunc) 
 	{
+		// push!
 		this.environment.pushFrame();
 		MapValue result;
-		// make sure the value in this environment is a function...
 		String funcName = userFunc.getRootData().getSpelling();
 
 		// get the environment's mapped definition
 		MapValue mappedFunction = this.environment.getValueOf(funcName);
+
 		// Calls to undefined functions
 		if(mappedFunction == null)
 		{
@@ -258,21 +281,29 @@ public class Interpreter
 			msg += funcName + " expects " + paramList.size() + "arguments.";
 			throw new IllegalArgumentException(msg);
 		}
-
+		
+		// map the values corresponding to the Funciton's parameter list...
 		for(int i=0; i<paramList.size(); i++)
 		{
 			this.environment.putValueOf(paramList.get(i).toString(), this.interpret(userFunc.getKthChild(i+1)));
 		}
+		
+		// finally, interpret the function indirectly recursively.
 		result = this.interpret( ((Function)mappedFunction).call() );
-
+		
+		// pop!
 		this.environment.popFrame();
 		return result;
 	}
 	
 	private MapValue handleIfExpr(OrderedTree<Token> ifExpr) throws IllegalArgumentException
 	{
-		MapValue tempLyst;
-		tempLyst = this.interpret(ifExpr.getKthChild(1));
+		MapValue tempLyst = this.interpret(ifExpr.getKthChild(1));
+		if(tempLyst.getType() == Function.type)
+		{
+			throw new IllegalArgumentException ("HOW DID THIS HAPPEN!");
+		}
+		
 		if(tempLyst.getList().size() == 0)
 		{
 			return this.interpret(ifExpr.getKthChild(3));
@@ -285,23 +316,29 @@ public class Interpreter
 	
 	public MapValue handleLetExpr(OrderedTree<Token> let) throws IllegalArgumentException
 	{
+		// push!
 		this.environment.pushFrame();
 		int i=1;
 		while(let.getKthChild(i).getRootData().getType() == "Def")
 		{
-			this.handleDef(let.getKthChild(i));
+			this.define(let.getKthChild(i));
 			i++;		
 		}
 		return this.interpret(let.getKthChild(i));
 	}
 	
-	public void handleDef(OrderedTree<Token> def)
+	public void define(OrderedTree<Token> def)
 	{	
 		String userFName = def.getKthChild(1).getRootData().getSpelling();
 		MapValue v = new Function(def);
 		this.environment.putValueOf(userFName, v);
 	}
 	
+	/**
+	 * Generates a list and accepts nested lists...
+	 * @param list the root node of children that will be added to a new Lyst
+	 * @return a Lyst of all the children of 'list'
+	 */
 	public Lyst generateList(OrderedTree<Token> list)
 	{
 		Lyst newList = new Lyst();
@@ -311,6 +348,7 @@ public class Interpreter
 		{
 			child = list.getKthChild(i);
 			rootData = child.getRootData();
+			// I know there's a way to do this more Java-friendly...<? super > something..no internet now...
 			if(rootData.getType() == "SymbolLiteral")
 			{
 				newList.add(new Symbol(rootData.getSpelling()));

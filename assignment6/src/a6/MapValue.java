@@ -5,16 +5,25 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class to represent values stored in scopes.
+ */
 abstract class MapValue {
 
 	public String spelling;
 	
+	/**
+	 * Pointer to empty garbage? kinda..
+	 */
 	public MapValue()
 	{
 		this.spelling = null;
 	}
 	
-	protected MapValue(String spelling, String type)
+	/**
+	 * Kind of like declaring a value without instantiating it...
+	 */
+	protected MapValue(String spelling)
 	{
 		this.spelling = spelling;
 	}
@@ -23,16 +32,35 @@ abstract class MapValue {
 		return this.spelling;
 	}
 	
+	/**
+	 * To represent the MapValue as a list...
+	 * @return The value(s) of the MapValue in an ArrayList
+	 */
 	public abstract ArrayList<MapValue> getList();
+	
+	/**
+	 * Converts the object to a Lyst
+	 * @return Lyst of this MapValue
+	 */
 	public abstract MapValue toLyst();
+	
+	/**
+	 * @return The type of this MapValue
+	 */
 	public abstract String getType();
 }
 
 class Function extends MapValue
 {
 	public static String type = "Function";
-	private String name;
+	
+	/**
+	 * The Syntax tree that represents this function
+	 */
 	private OrderedTree<Token> algorithm;
+	/**
+	 * The parameters of this funcition definition
+	 */
 	private ArrayList<MapValue> params;
 	
 	/**
@@ -41,7 +69,8 @@ class Function extends MapValue
 	 */
 	public Function(OrderedTree<Token> definition)
 	{
-		this.name = definition.getKthChild(1).getRootData().getSpelling();
+		super( definition.getKthChild(1).getRootData().getSpelling() );
+		
 		this.algorithm = definition.getKthChild(2);
 
 		this.params = new ArrayList<MapValue>(0);
@@ -52,6 +81,10 @@ class Function extends MapValue
 		}
 	}
 	
+	/**
+	 * Used when interpreting this function
+	 * @return algorithm The syntax tree that defines this algorithm
+	 */
 	public OrderedTree<Token> call()
 	{
 		return this.algorithm;
@@ -89,7 +122,7 @@ class Symbol extends MapValue
 	
 	public Symbol(String spelling)
 	{
-		super(spelling, "Symbol");
+		super(spelling);
 	}
 	
 	public Lyst toLyst()
@@ -132,6 +165,11 @@ class Lyst extends MapValue
 		this.lyst = new ArrayList<MapValue>(lyst);
 	}
 	
+	/**
+	 * Bad way of nesting children in ArrayLists...
+	 * 	But I think it suffices for EC
+	 * @param list
+	 */
 	public Lyst(OrderedTree<Token> list)
 	{
 		
@@ -144,6 +182,7 @@ class Lyst extends MapValue
 			child = list.getKthChild(i);
 			rootData = child.getRootData();
 			type = rootData.getType();
+			// I know there's a way to do this more Java-friendly...
 			if(type == "SymbolLiteral")
 			{
 				this.lyst.add(new Symbol(rootData.getSpelling()));
